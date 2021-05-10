@@ -19,6 +19,10 @@ public class FileEncryption {
         SecretKeySpec key = new SecretKeySpec(derivedKey, "AES");
         IvParameterSpec iv = new IvParameterSpec(ivBytes);
         int readSize_encrypted = 0;
+        int[] progressBarCount = new int[20];
+        for(int i=0;i<20;i++){
+            progressBarCount[i] = 1;
+        }
         //password_check 만들기.
         Cipher cipher = null;
         cipher = Cipher.getInstance("AES/CBC/PKCS7Padding", "BC");
@@ -33,18 +37,18 @@ public class FileEncryption {
             int fileSize = Utils.getFileSize(path, "installFile.exe");
             double progressPercentage;
 
-            FileOutputStream fos_pwCheck = new FileOutputStream(o_path+"password_check");
+            FileOutputStream fos_pwCheck = new FileOutputStream(o_path+"password_check.txt");
             FileOutputStream fos_saltCheck = new FileOutputStream(o_path+"Salt");
             FileInputStream fis = new FileInputStream(path + "installFile.exe");
             FileOutputStream fos = new FileOutputStream(o_path + "Encrypted");
             byte Salt[] = salt;
             fos_saltCheck.write(Salt);
             //password_check 구현.
-            byte[] password_check_big;
 
             MessageDigest md = MessageDigest.getInstance("SHA1", "BC");
             md.update(Utils.concatByteArray(derivedKey, salt));
             //SHA-1의 결과로 20바이트짜리 패스워드_체크_빅이 생성됨. 이것을 줄여주자
+            byte[] password_check_big;
             password_check_big = md.digest();
             byte[] password_check = new byte[16];
             System.arraycopy(password_check_big, 0, password_check, 0, 16);
@@ -57,7 +61,7 @@ public class FileEncryption {
                     readSize_encrypted+=read;
                     progressPercentage = (double) readSize_encrypted/fileSize;
                     if(progressPercentage<=1) {
-                        updateProgress(progressPercentage);
+                        updateProgress(progressPercentage, progressBarCount);
                     }
                     fos.write(cipher.update(buffer, 0, read));
                 }
@@ -77,39 +81,44 @@ public class FileEncryption {
                 }
             }
             System.out.println("암호화 완료!");
-            System.out.println(password_check);
-            System.out.println(Utils.toHexString(password_check));
+
         }
         if (mode == "dec"){
             cipher.init(Cipher.DECRYPT_MODE, key, iv);
             int BUF_SIZE = 1024;
             byte[] buffer = new byte[BUF_SIZE];
             byte[] password_check2;
-            FileInputStream fis_pwcheck = new FileInputStream(path+"password_check");
+            double progressPercentage;
+            int fileSize = Utils.getFileSize(path, "Encrypted");
+
+            FileInputStream fis_pwcheck = new FileInputStream(path+"password_check.txt");
             FileInputStream fis = new FileInputStream(path + "Encrypted");
             FileOutputStream fos = new FileOutputStream(o_path + "intallFile.exe");
 
             //password_check 구현.
-
-            MessageDigest md = MessageDigest.getInstance("SHA1", "BC");
-            md.update(Utils.concatByteArray(derivedKey, salt));
+            MessageDigest md2 = MessageDigest.getInstance("SHA1", "BC");
+            md2.update(Utils.concatByteArray(derivedKey, salt));
             //SHA-1의 결과로 20바이트짜리 패스워드_체크_빅이 생성됨. 이것을 줄여주자
             byte[] password_check_big;
-            password_check_big = md.digest();
+            password_check_big = md2.digest();
             byte[] password_check = new byte[16];
             System.arraycopy(password_check_big, 0, password_check, 0, 16);
             //16바이트로 줄어든 password_check를 fos_pwcheck를 통해서 씀.
             password_check2 = fis_pwcheck.readAllBytes();
-            System.out.println("Original: " + Utils.toHexString(password_check));
-            System.out.println("New: " + Utils.toHexString(password_check2));
+//            System.out.println("Original: " + Utils.toHexString(password_check));
+//            System.out.println("New: " + Utils.toHexString(password_check2));
             //
 
             // 중복체크 완료.
-            if(password_check2 == password_check) {
+            if(Utils.toHexString(password_check).equals(Utils.toHexString(password_check2))) {
                 int read = -1;
                 try {
                     while ((read = fis.read(buffer)) != -1) {
                         readSize_encrypted += read;
+                        progressPercentage = (double) readSize_encrypted/fileSize;
+                        if(progressPercentage<=1) {
+                            updateProgress(progressPercentage, progressBarCount);
+                        }
                         //System.out.println(readSize_encrypted);
                         fos.write(cipher.update(buffer, 0, read));
                     }
@@ -133,26 +142,16 @@ public class FileEncryption {
 //                System.out.println("Result Size: "+Utils.getFileSize(o_path, "Result.pdf"));
                 System.out.println("복호화 완료!");
             }else{
-                if(Utils.toHexString(password_check) == Utils.toHexString(password_check2)){
-                    System.out.println("이상한데..?");
-                }
-                System.out.println(password_check);
-                System.out.println(password_check);
-                System.out.println(password_check2);
+                System.out.println("기존 파일의 Key와 맞지 않습니다.");
             }
         }
     }
     public static void run(String mode, byte[] salt, byte[] derivedKey, String path, String o_path) throws Exception {
         fileEnc(mode, salt, derivedKey, path, o_path);
     }
-    public static int updateProgress(double progressPercentage){
+    public static int updateProgress(double progressPercentage, int[] progressBarCount){
         final int width = 50;
         progressPercentage*=100;
-        int[] progressBarCount = new int[20];
-
-        for(int i=0;i<20;i++){
-            progressBarCount[i]=1;
-        }
 
         //1~ 20개인데 이걸 하려면 percentage = 5% -> 0.05 ->
         for(int i=0;i<20;i++){
