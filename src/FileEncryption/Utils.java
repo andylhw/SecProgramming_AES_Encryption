@@ -2,6 +2,9 @@ package FileEncryption;
 
 import java.io.File;
 import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Utils {
 	public static String toString(byte[] input) {
@@ -96,6 +99,19 @@ public class Utils {
 			file_reader2.close();
 			return false;
 		}
+
+	}
+
+	public static int getFileSize(String filePath, String fileName) throws Exception{
+		Path path = Paths.get(filePath + fileName);
+		long bytes = 0;
+		try{
+			bytes = Files.size(path);
+			System.out.println(String.format("%,d bytes", bytes));
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return (int) bytes;
 	}
 
 }

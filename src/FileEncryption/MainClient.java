@@ -16,5 +16,7 @@ public class MainClient {
         derivedKey = KeyDerivation.run(password, salt);
         FileEncryption.run(encrypt, salt, derivedKey, inputPath, outputPath);
         FileEncryption.run(decrypt, salt, derivedKey, outputPath, resultPath);
+
+
     }
 }
