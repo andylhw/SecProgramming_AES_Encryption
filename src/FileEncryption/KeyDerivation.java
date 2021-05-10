@@ -1,14 +1,12 @@
 package FileEncryption;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.Security;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class KeyDerivation {
-    public static byte[] pbkdf1(String password, byte[] salt,  int dkLen, int iteration) throws Exception {
+    private static byte[] pbkdf1(String password, byte[] salt,  int dkLen, int iteration) throws Exception {
 
         byte[] passwordByte = Utils.toByteArray(password);
 
@@ -23,7 +21,7 @@ public class KeyDerivation {
             System.out.println("dkLen이 20보다 큽니다.");
             return null;
         }
-        byte[] dk = new byte[dkLen];
+        byte[] dk;
         MessageDigest md = MessageDigest.getInstance("SHA1", "BC");
 
         dk = md.digest(input);

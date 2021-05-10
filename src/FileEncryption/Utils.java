@@ -107,7 +107,7 @@ public class Utils {
 		long bytes = 0;
 		try{
 			bytes = Files.size(path);
-			System.out.println(String.format("%,d bytes", bytes));
+			System.out.println(String.format("Input file: %,d bytes", bytes));
 		} catch(Exception e){
 			e.printStackTrace();
 		}

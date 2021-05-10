@@ -13,6 +13,9 @@ import java.security.Security;
 public class FileEncryption {
     public static void fileEnc(String mode, byte[] salt, byte[] derivedKey, String path, String o_path) throws Exception {
         Security.addProvider(new BouncyCastleProvider());
+        String inputFileName = "installFile.exe";
+        String encryptFileName = "Encrypted";
+        String resultFileName = inputFileName;
         byte[] ivBytes = new byte[]{
                 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00,
                 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00};
@@ -34,13 +37,13 @@ public class FileEncryption {
 
             int BUF_SIZE = 1024;
             byte[] buffer = new byte[BUF_SIZE];
-            int fileSize = Utils.getFileSize(path, "installFile.exe");
+            int fileSize = Utils.getFileSize(path, inputFileName);
             double progressPercentage;
 
-            FileOutputStream fos_pwCheck = new FileOutputStream(o_path+"password_check.txt");
+            FileOutputStream fos_pwCheck = new FileOutputStream(o_path+"password_check");
             FileOutputStream fos_saltCheck = new FileOutputStream(o_path+"Salt");
-            FileInputStream fis = new FileInputStream(path + "installFile.exe");
-            FileOutputStream fos = new FileOutputStream(o_path + "Encrypted");
+            FileInputStream fis = new FileInputStream(path + inputFileName);
+            FileOutputStream fos = new FileOutputStream(o_path + encryptFileName);
             byte Salt[] = salt;
             fos_saltCheck.write(Salt);
             //password_check 구현.
@@ -89,11 +92,11 @@ public class FileEncryption {
             byte[] buffer = new byte[BUF_SIZE];
             byte[] password_check2;
             double progressPercentage;
-            int fileSize = Utils.getFileSize(path, "Encrypted");
+            int fileSize = Utils.getFileSize(path, encryptFileName);
 
-            FileInputStream fis_pwcheck = new FileInputStream(path+"password_check.txt");
-            FileInputStream fis = new FileInputStream(path + "Encrypted");
-            FileOutputStream fos = new FileOutputStream(o_path + "intallFile.exe");
+            FileInputStream fis_pwcheck = new FileInputStream(path+"password_check");
+            FileInputStream fis = new FileInputStream(path + encryptFileName);
+            FileOutputStream fos = new FileOutputStream(o_path + resultFileName);
 
             //password_check 구현.
             MessageDigest md2 = MessageDigest.getInstance("SHA1", "BC");
