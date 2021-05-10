@@ -73,7 +73,6 @@ public class FileEncryption {
         }
         if (mode == "dec"){
             cipher.init(Cipher.DECRYPT_MODE, key, iv);
-            boolean pw_check=false;
             int BUF_SIZE = 1024;
             byte[] buffer = new byte[BUF_SIZE];
             FileOutputStream fos_pwcheck = new FileOutputStream(path+"password_check`");
@@ -93,38 +92,9 @@ public class FileEncryption {
             fos_pwcheck.write(password_check);
             fos_pwcheck.close();
             //
-            //전->후 파일 비교. 왠만하면 텍스트파일로 비교하는게 좋을 것 같긴한데, jpg파일 비교도 확인했습니다.
-            String password_check_file = path + "password_check";
-            String password_check_file2 = path + "password_check`";
-            File file1 = new File(password_check_file);
-            File file2 = new File(password_check_file2);
 
-            FileReader file_reader1 = new FileReader(file1);
-            FileReader file_reader2 = new FileReader(file2);
-            String strFile1="";
-            String strFile2="";
-            int cur=0;
-
-            while((cur = file_reader1.read()) != -1) {
-                strFile1 += (char)cur;
-            }
-            while((cur = file_reader2.read()) != -1) {
-                strFile2 += (char)cur;
-            }
-
-            if(strFile1.equals(strFile2)) {
-                System.out.println("두 개의 파일 내용이 같습니다");
-                pw_check=true;
-            }
-            else {
-                System.out.println("두 개의 파일 내용이 다릅니다.");
-                System.out.println(strFile1);
-                System.out.println(strFile2);
-            }
-            file_reader1.close();
-            file_reader2.close();
             // 중복체크 완료.
-            if(pw_check==true) {
+            if(Utils.checkSameFile(path, "password_check", "password_check`")) {
                 int read = -1;
                 try {
                     while ((read = fis.read(buffer)) != -1) {
