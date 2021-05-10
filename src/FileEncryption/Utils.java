@@ -50,4 +50,12 @@ public class Utils {
         return bytes;
     }
 
+    public static byte[] concatByteArray(byte[] first, byte[] second){
+		byte[] result_concat = new byte[first.length + second.length];
+		System.arraycopy(first, 0, result_concat, 0, first.length);
+		System.arraycopy(second, 0, result_concat, first.length, second.length);
+
+		return result_concat;
+	}
+
 }

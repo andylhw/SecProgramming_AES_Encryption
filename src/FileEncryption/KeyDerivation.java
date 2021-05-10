@@ -11,10 +11,14 @@ public class KeyDerivation {
     public static byte[] pbkdf1(String password, byte[] salt,  int dkLen, int iteration) throws Exception {
 
         byte[] passwordByte = Utils.toByteArray(password);
-        byte[] input = new byte[passwordByte.length + salt.length];
+
         Security.addProvider(new BouncyCastleProvider());
-        System.arraycopy(passwordByte, 0, input, 0, passwordByte.length);
-        System.arraycopy(salt, 0, input, passwordByte.length, salt.length);
+
+        byte[] input = Utils.concatByteArray(passwordByte, salt);
+//        byte[] input = new byte[passwordByte.length + salt.length];
+//        System.arraycopy(passwordByte, 0, input, 0, passwordByte.length);
+//        System.arraycopy(salt, 0, input, passwordByte.length, salt.length);
+
         if(dkLen>20){
             System.out.println("dkLen이 20보다 큽니다.");
             return null;
@@ -32,8 +36,7 @@ public class KeyDerivation {
 
         return result;
     }
-    public static byte[] run(String password) throws Exception {
-        byte[] salt = new byte[] {0x78, 0x57, (byte)0x8e, 0x5a, 0x5d, 0x63, (byte)0xcb, 0x06};
+    public static byte[] run(String password, byte[] salt) throws Exception {
         int count = 1000;
         int dkLen = 16;
 
