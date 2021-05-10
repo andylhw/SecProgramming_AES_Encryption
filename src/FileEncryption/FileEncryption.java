@@ -11,9 +11,12 @@ import java.security.Security;
 
 
 public class FileEncryption {
+    //path - input에 사용할 디렉토리 경로, o_path - output에 사용될 디렉토리 경로.
     public static void fileEnc(String mode, byte[] salt, byte[] derivedKey, String path, String o_path) throws Exception {
         Security.addProvider(new BouncyCastleProvider());
+        //암호화할 파일 이름을 입력해주세요.
         String inputFileName = "installFile.exe";
+        //암호화가 완료되고 파일이 저장될 이름.
         String encryptFileName = "Encrypted";
         String resultFileName = inputFileName;
         byte[] ivBytes = new byte[]{
@@ -33,6 +36,7 @@ public class FileEncryption {
 
 
         if(mode == "enc") {
+            System.out.println("암호화 시작!");
             cipher.init(Cipher.ENCRYPT_MODE, key, iv);
 
             int BUF_SIZE = 1024;
@@ -114,6 +118,7 @@ public class FileEncryption {
 
             // 중복체크 완료.
             if(Utils.toHexString(password_check).equals(Utils.toHexString(password_check2))) {
+                System.out.println("password_check검사 통과. 복호화 시작");
                 int read = -1;
                 try {
                     while ((read = fis.read(buffer)) != -1) {
