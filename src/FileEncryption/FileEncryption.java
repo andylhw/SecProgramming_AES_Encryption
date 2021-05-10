@@ -33,6 +33,7 @@ public class FileEncryption {
         Cipher cipher = null;
         cipher = Cipher.getInstance("AES/CBC/PKCS7Padding", "BC");
 
+        long startTime = System.currentTimeMillis();
 
 
         if(mode == "enc") {
@@ -88,6 +89,9 @@ public class FileEncryption {
                 }
             }
             System.out.println("암호화 완료!");
+            long endTime = System.currentTimeMillis();
+            long takeTime = endTime - startTime;
+            System.out.println("암호화 하는데 걸린 시간: "+takeTime/1000.0+"초");
 
         }
         if (mode == "dec"){
@@ -149,6 +153,9 @@ public class FileEncryption {
 //                System.out.println("Origin Size: "+Utils.getFileSize(o_path, "../input/Project.pdf"));
 //                System.out.println("Result Size: "+Utils.getFileSize(o_path, "Result.pdf"));
                 System.out.println("복호화 완료!");
+                long endTime = System.currentTimeMillis();
+                long takeTime = endTime - startTime;
+                System.out.println("복호화 하는데 걸린 시간: "+takeTime/1000.0+"초");
             }else{
                 System.out.println("기존 파일의 Key와 맞지 않습니다.");
             }
