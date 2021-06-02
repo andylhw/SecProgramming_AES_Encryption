@@ -10,6 +10,7 @@
       * enc, dec, both는 암호화 프로그램을 동작시키게 함.
         * password와 파일경로를 받아서 enc는 암호화, dec는 복호화, both는 암호화와 복호화를 실행시켜준다.
           * dec주의사항: enc를 프로그램 실행해야 dec를 했을 때, 확장자가 제대로 출력됨 (default: exe)
+          * both로 진행 시, 완료 후 기존 파일과 새롭게 복호화된 파일이 같은 파일인지 확인하는 checkSameFile 메소드 호출되서 확인하고 종료됨.
       * check는 파일이 같은 여부를 확인시켜준다.
         * 첫번째 파일과, 두번째 파일의 경로를 입력받은 후, Utils.java에 있는 checkSameFile메소드 실행시킨다.
       * exit실행시 종료된다.
