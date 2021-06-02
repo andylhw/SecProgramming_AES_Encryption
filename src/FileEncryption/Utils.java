@@ -86,7 +86,10 @@ public class Utils {
 			md2.update(dataBytes2, 0, nRead2);
 		}
 		byte[] mdBytes2 = md2.digest();
-		System.out.print("두개 파일 같은지 여부: ");
+
+		fileInputStream.close();
+		fileInputStream2.close();
+		System.out.print("Same File Check: ");
 		if(Utils.toHexString(mdBytes).equals(Utils.toHexString(mdBytes2))){
 			System.out.println("true");
 			return true;
@@ -97,8 +100,8 @@ public class Utils {
 		}
 	}
 
-	public static int getFileSize(String filePath, String fileName) throws Exception{
-		Path path = Paths.get(filePath + fileName);
+	public static int getFileSize(String filePath) throws Exception{
+		Path path = Paths.get(filePath);
 		long bytes = 0;
 		try{
 			bytes = Files.size(path);

@@ -40,8 +40,8 @@ public class KeyDerivation {
 
         byte[] result = pbkdf1(password, salt, dkLen, count);
 
-//        KeyDerivation 테스트 스크립트
-        System.out.println("Result: " + Utils.toHexString(result));
+////        KeyDerivation 테스트 스크립트
+//        System.out.println("Result: " + Utils.toHexString(result));
         return result;
     }
 }
