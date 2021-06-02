@@ -2,6 +2,18 @@
 ## AES를 활용한 암호화/복호화 
 
 ### API 설명
+
+* MainClient.java
+  * public static void main(String[] args)
+    * 프로그램이 구동하는 메인 메소드.
+      * 시작시, mode를 입력받음 (enc, dec, both, check)
+      * enc, dec, both는 암호화 프로그램을 동작시키게 함.
+        * password와 파일경로를 받아서 enc는 암호화, dec는 복호화, both는 암호화와 복호화를 실행시켜준다.
+          * dec주의사항: enc를 프로그램 실행해야 dec를 했을 때, 확장자가 제대로 출력됨 (default: exe)
+      * check는 파일이 같은 여부를 확인시켜준다.
+        * 첫번째 파일과, 두번째 파일의 경로를 입력받은 후, Utils.java에 있는 checkSameFile메소드 실행시킨다.
+      * exit실행시 종료된다.
+---
 * FileEncryption.java
   * public static void fileEnc
     * 파일을 암호화, 복호화 하는 프로그램이다.
@@ -44,17 +56,6 @@
       * 그 후 나온 result를 리턴함.
   * public static byte[] run(password, salt)
     * password와 salt를 받아와서, private로 선언된 pbkdf1메소드를 실행시키는 연결함수.  
----
-* MainClient.java
-  * public static void main(String[] args)
-    * 프로그램이 구동하는 메인 메소드.
-      * 시작시, mode를 입력받음 (enc, dec, both, check)
-      * enc, dec, both는 암호화 프로그램을 동작시키게 함.
-        * password와 파일경로를 받아서 enc는 암호화, dec는 복호화, both는 암호화와 복호화를 실행시켜준다.
-          * dec주의사항: enc를 프로그램 실행해야 dec를 했을 때, 확장자가 제대로 출력됨 (default: exe)
-      * check는 파일이 같은 여부를 확인시켜준다.
-        * 첫번째 파일과, 두번째 파일의 경로를 입력받은 후, Utils.java에 있는 checkSameFile메소드 실행시킨다.
-      * exit실행시 종료된다.
 ---
 * Utils.java (기존에 제공된 파일에 추가된 내용만 서술함)
   * public static byte[] concatByteArray(first, second)
