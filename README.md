@@ -5,7 +5,7 @@
 * FileEncryption.java
   * public static void fileEnc
     * 파일을 암호화, 복호화 하는 프로그램이다.
-* input - mode(
+      * input - mode(
 
 *
 *
