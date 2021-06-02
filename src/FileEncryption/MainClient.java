@@ -25,13 +25,14 @@ public class MainClient {
             if(selection.equals("exit")){
                 break;
             }
-            if(selection.equals("check")){
+            else if(selection.equals("check")){
                 System.out.println("Please enter the first File path");
                 path1 = scanner.nextLine();
                 System.out.println("Please enter the second File path");
                 path2 = scanner.nextLine();
                 Utils.checkSameFile(path1, path2);
-            }else {
+            }
+            else if(selection.equals("enc") ||selection.equals("dec") || selection.equals("both")){
                 System.out.println("Please enter the password: ");
                 password = scanner.nextLine();
                 System.out.println("Please enter the File path: ");
@@ -72,6 +73,9 @@ public class MainClient {
 
             Utils.checkSameFile(inputPath, FileEncryption.getFileDir(inputPath) + "Result.exe");
             */
+            }
+            else{
+                System.out.println("Wrong input!");
             }
         }
 

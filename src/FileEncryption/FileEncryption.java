@@ -55,7 +55,7 @@ public class FileEncryption {
             //password_check 구현.
 
             MessageDigest md = MessageDigest.getInstance("SHA1", "BC");
-            md.update(Utils.concatByteArray(derivedKey, salt));
+            md.update(derivedKey);
             //As a result of SHA-1, Password_check_big created which is 20 bytes.
             byte[] password_check_big;
             password_check_big = md.digest();
@@ -113,7 +113,7 @@ public class FileEncryption {
 
             //password_check function
             MessageDigest md2 = MessageDigest.getInstance("SHA1", "BC");
-            md2.update(Utils.concatByteArray(derivedKey, salt));
+            md2.update(derivedKey);
             //As a result of SHA-1, Password_check_big created which is 20 bytes.
             byte[] password_check_big;
             password_check_big = md2.digest();
@@ -173,7 +173,7 @@ public class FileEncryption {
     public static void run(String mode, byte[] salt, byte[] derivedKey, String path, String extension) throws Exception {
         run(mode, salt, derivedKey, path, FileEncryption.getFileDir(path), extension);
     }
-    public static int updateProgress(double progressPercentage, int[] progressBarCount){
+    private static int updateProgress(double progressPercentage, int[] progressBarCount){
         final int width = 50;
         progressPercentage*=100;
 
