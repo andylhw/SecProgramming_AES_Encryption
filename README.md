@@ -8,7 +8,7 @@
       * input - mode(암호화 - enc, 복호화 - dec), salt(Salt를 통한 보안성 향상), derivedKey(KeyDerivation을 통해서 생성한 키), String path(원본파일 경로), String o_path(파일을 저장할 경로), String extension(파일을 복호화할 때, 원본 파일의 확장자명을 기억하게 하기 위한 문자열)
       * Output - void
       * Code Review
-      * ```java
+ ```java
  if(mode == "enc") {
             System.out.println("Encryption start!");
             cipher.init(Cipher.ENCRYPT_MODE, key, iv);
