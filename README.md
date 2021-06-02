@@ -2,6 +2,6 @@
 ## AES를 활용한 암호화/복호화 
 
 ###API 설명
-*FileEncryption.java
--public static void fileEnc
+* FileEncryption.java
+- public static void fileEnc
 +
