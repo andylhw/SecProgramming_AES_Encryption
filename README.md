@@ -3,7 +3,7 @@
 
 ### API 설명
 
-* MainClient.java
+* MainClient.java.
   * public static void main(String[] args)
     * 프로그램이 구동하는 메인 메소드.
       * 시작시, mode를 입력받음 (enc, dec, both, check)
